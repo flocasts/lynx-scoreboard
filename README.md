@@ -23,3 +23,5 @@ Accepts three params
         }
     );
 ```
+
+Use `connection.disconnect()` to terminate the connection.
