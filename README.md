@@ -8,6 +8,7 @@ Accepts three params
  - callback for what to do when a data packet is received
  - (optional) callback for error handling. Will console.log the error if there is no error handling passed in.
 
+```javascript
     const connection = {
         ip: 8080,
         port: '127.0.0.1'
@@ -21,3 +22,4 @@ Accepts three params
             console.log(error);
         }
     );
+```
