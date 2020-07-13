@@ -24,6 +24,6 @@ export class LynxScoreboard {
 
     disconnect() {
         if (!this.server) return;
-        this.server.disconnect();
+        this.server.close();
     }
 }
