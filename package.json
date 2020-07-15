@@ -1,6 +1,6 @@
 {
   "name": "lynx-scoreboard",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Generic server to act as a Lynx Scoreboard receiver.",
   "main": "dist/index.js",
   "scripts": {

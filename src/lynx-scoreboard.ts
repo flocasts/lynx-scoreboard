@@ -86,7 +86,7 @@ export class LynxScoreboard {
   }
 
   private _publish(topic: Topic, data?: any) {
-      this._subscribers[topic].forEach((callback: Function) => callback(data));
+    this._subscribers[topic].forEach((callback: Function) => callback(data));
   }
 
   public subscribe(
@@ -122,10 +122,13 @@ export class LynxScoreboard {
     return this;
   }
 
-  public stopListening() {
+  public stopListening(): Promise<void> {
     if (!this._isListening) {
       throw "This socket is not listening.";
     }
-    this._socket.close();
+    return new Promise((resolve) => {
+      this.subscribe("stoppedListening", () => resolve);
+      this._socket.close();
+    });
   }
 }
