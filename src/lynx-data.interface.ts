@@ -23,7 +23,7 @@ export interface LynxEvent {
   eventNo: number;
   roundNo: number;
   heatNo: number;
-  event_round_heat: string;
+  eventRoundHeat: string;
   startType: string;
 }
 

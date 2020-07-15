@@ -6,21 +6,11 @@ import {
 } from "./lynx-data.interface";
 
 function parseDirective(message: string) {
-  const directive: LynxDirective = {
-    title: "",
-    data: [],
+  const data = message.split(",");
+  return {
+    title: data.shift() || "",
+    data: data.map((val) => val.trim()),
   };
-  message.split(",").forEach((val, i) => {
-    // First part is always the directive title
-    if (i == 0) {
-      // chop off the *
-      directive.title = val.substr(1);
-      return;
-    }
-    // Get Data
-    directive.data.push(val.trim());
-  });
-  return directive;
 }
 
 function parseEvent(line: string): LynxEvent {
@@ -32,7 +22,7 @@ function parseEvent(line: string): LynxEvent {
     eventNo: parseInt(data[3]),
     roundNo: parseInt(data[4]),
     heatNo: parseInt(data[5]),
-    event_round_heat: data[6],
+    eventRoundHeat: data[6],
     startType: data[7],
   };
 }

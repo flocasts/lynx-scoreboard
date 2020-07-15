@@ -45,7 +45,7 @@ export class LynxScoreboard {
     return this._isListening;
   }
 
-  private _socket: dgram.Socket;
+  private readonly _socket: dgram.Socket;
   private _isListening: boolean = false;
   private _subscribers: Subscribers = {
     error: [],
