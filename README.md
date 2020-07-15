@@ -1,27 +1,35 @@
 # lynx-scoreboard
-Connection interface to FinishLynx Scoreboard
 
-**USAGE**
+Create a Scoreboard Interface to listen to updates from FinishLynx
 
-Accepts three params
- - an object containing the IP and Port the scoreboard is broadcasting on
- - callback for what to do when a data packet is received
- - (optional) callback for error handling. Will console.log the error if there is no error handling passed in.
+## Usage Example
 
 ```javascript
-    const connection = {
-        ip: 8080,
-        port: '127.0.0.1'
-    }
-    
-    const connection = new LynxScoreboard(connection, 
-        packet => {
-            console.log(packet);
-        },
-        error => {
-            console.log(error);
-        }
-    );
-```
+const scoreboard = await LynxScoreboard.listen({
+  port: 8080,
+  ip: "127.0.0.1",
+});
 
-Use `connection.disconnect()` to terminate the connection.
+if (scoreboard.isListening) {
+  console.log("I am listening!");
+}
+
+scoreboard.subscribe("error", (err) => {
+  console.log(`Uh oh! There was an error: ${err}`);
+});
+
+scoreboard.subscribe("results", (data) => {
+  console.log(`Received ${data.results} from ${data.event.eventName}`);
+});
+
+scoreboard.subscribe("directive", (data) => {
+  console.log(`Received directive: ${data.title}`);
+});
+
+scoreboard.subscribe("stoppedListening", () => {
+  console.log(`I stopped listening!`);
+});
+
+// Stop listening after 10 seconds
+setTimeout(() => scoreboard.stopListening(), 10000);
+```
