@@ -18,7 +18,7 @@ type DirectiveCallback = (data: LynxDirective) => void;
 type ResultsCallback = (data: LynxResults) => void;
 type EmptyCallback = () => void;
 type Subscribers = {
-  data: ResultsCallback[];
+  results: ResultsCallback[];
   directive: DirectiveCallback[];
   error: ErrorCallback[];
   listening: EmptyCallback[];
@@ -49,7 +49,7 @@ export class LynxScoreboard {
   private _isListening: boolean = false;
   private _subscribers: Subscribers = {
     error: [],
-    data: [],
+    results: [],
     directive: [],
     listening: [],
     stoppedListening: [],
@@ -73,10 +73,8 @@ export class LynxScoreboard {
       .on("message", (buffer) => {
         try {
           const packet = parseLynxPacket(buffer.toString("utf8"));
-          this._publish(
-            packet.isDirective ? "directive" : "results",
-            packet.data
-          );
+          const topic = packet.isDirective ? "directive" : "results";
+          this._publish(topic, packet.data);
         } catch (err) {
           this._publish("error", String(err));
         }
@@ -88,7 +86,7 @@ export class LynxScoreboard {
   }
 
   private _publish(topic: Topic, data?: any) {
-    this._subscribers[topic].forEach((callback: Function) => callback(data));
+      this._subscribers[topic].forEach((callback: Function) => callback(data));
   }
 
   public subscribe(
@@ -115,7 +113,7 @@ export class LynxScoreboard {
     } else if (topic == "stoppedListening") {
       this._subscribers.stoppedListening.push(callback as EmptyCallback);
     } else if (topic == "results") {
-      this._subscribers.data.push(callback as ResultsCallback);
+      this._subscribers.results.push(callback as ResultsCallback);
     } else if (topic == "directive") {
       this._subscribers.directive.push(callback as DirectiveCallback);
     } else {
