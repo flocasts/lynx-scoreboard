@@ -19,7 +19,9 @@ scoreboard.subscribe("error", (err) => {
 });
 
 scoreboard.subscribe("results", (data) => {
-  console.log(`Received ${data.results} from ${data.event.eventName}`);
+  console.log(
+    `Received ${data.results.length} results from ${data.event.eventName}`
+  );
 });
 
 scoreboard.subscribe("directive", (data) => {
