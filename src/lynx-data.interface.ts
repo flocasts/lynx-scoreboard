@@ -5,7 +5,7 @@ export interface LynxResult {
   name: string;
   team: string;
   time: string;
-  delta: string;
+  delta: string | null;
   cumulativeSplitTime: string | null;
   lastSplitTime: string | null;
   lapsToGo: number | null;

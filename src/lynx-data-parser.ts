@@ -27,7 +27,7 @@ function parseEvent(line: string): LynxEvent {
   };
 }
 
-function parseResult(line: string): LynxResult {
+function parseResult(line: string, index: number): LynxResult {
   const data = line.split(",");
   return {
     place: data[0] ? parseInt(data[0].trim()) : null,
@@ -36,7 +36,7 @@ function parseResult(line: string): LynxResult {
     name: data[3].trim(),
     team: data[4].trim(),
     time: data[5].trim(),
-    delta: data[6].trim(),
+    delta: index > 0 ? data[6].trim() : null, // first place should have no delta
     cumulativeSplitTime: data[7] ? data[7].trim() : null,
     lastSplitTime: data[8] ? data[8].trim() : null,
     lapsToGo: data[9] ? parseInt(data[9].trim()) : null,
@@ -59,7 +59,7 @@ function parseResults(message: string): LynxResults {
     results: lines
       // Remove empty lines
       .filter((line) => line.replace(",", "").length > 0)
-      .map((line) => parseResult(line)),
+      .map((line, index) => parseResult(line, index)),
   };
 }
 
