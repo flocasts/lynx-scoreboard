@@ -6,7 +6,7 @@ import {
 } from "./lynx-data.interface";
 
 function parseDirective(message: string) {
-  const data = message.split(",");
+  const data = message.substr(1).split(",");
   return {
     title: data.shift() || "",
     data: data.map((val) => val.trim()),
