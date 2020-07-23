@@ -66,7 +66,12 @@ function parseResults(message: string): LynxResults {
 export function parseLynxPacket(
   message: string
 ): { isDirective: boolean; data: LynxResults | LynxDirective } {
-  const isDirective = message.startsWith("*");
+  // Check if directive 
+  let isDirective = false;
+  if (message.startsWith("*")) {
+    isDirective = true;
+    message = message.substr(1); // Chop off *
+  }
   return {
     isDirective: isDirective,
     data: isDirective ? parseDirective(message) : parseResults(message),
