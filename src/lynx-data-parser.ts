@@ -30,7 +30,7 @@ function parseEvent(line: string): LynxEvent {
 function parseResult(line: string): LynxResult {
   const data = line.split(",");
   return {
-    place: data[0] ? parseInt(data[0].trim()) : null,
+    place: data[0] ? data[0].trim() : null,
     lane: data[1] ? parseInt(data[1].trim()) : null,
     id: data[2] ? parseInt(data[2].trim()) : null,
     name: data[3].trim(),
