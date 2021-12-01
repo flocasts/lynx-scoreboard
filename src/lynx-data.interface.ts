@@ -1,5 +1,5 @@
 export interface LynxResult {
-  place: number | null;
+  place: string | null;
   lane: number | null;
   id: number | null;
   name: string;
