@@ -3,6 +3,9 @@
 Create a Scoreboard Interface to listen to updates from FinishLynx
 
 ## Usage Example
+Use "npm run build" to create dist version of example.js
+Open terminal and cd to "lynx-scoreboard\dist"
+Run command "node example.js"
 
 ```javascript
 const scoreboard = await LynxScoreboard.listen({

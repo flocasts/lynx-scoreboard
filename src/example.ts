@@ -15,15 +15,15 @@ import { LynxScoreboard } from ".";
   });
 
   scoreboard.subscribe("results", (data) => {
-    console.log(`Received ${data.results} from ${data.event.eventName}`);
+    console.log(`Received ${JSON.stringify(data.results)} from ${data.event.eventName}`);
   });
 
   scoreboard.subscribe("directive", (data) => {
     console.log(`Received directive: ${data.title}`);
   });
 
-  scoreboard.subscribe("stoppedListening", () => {
-    console.log(`I stopped listening!`);
+  scoreboard.subscribe("stoppedListening", (data?) => {
+    console.log(`${data} stopped listening!`);
   });
 
   // Stop listening after 10 seconds
