@@ -96,14 +96,9 @@ export class LynxScoreboard {
                 this._isListening = false;
                 this._publish("stoppedListening", "UDP");
             })
-            .on("message", (buffer, rinfo) => {
-                // Special case for FinishLynx UDP.  Packets are fragmented at size 536 by default.
-                // Do this so timer doesn't have to change hidden settings
-                // If they do change it, no problem
-                // rare case - complete packet is 536, one message will be off until next message is received with different size
-
+            .on("message", (buffer) => {
                 // check if datagram is full.  If so, more data to come
-                if (rinfo.size === 536) {
+                if (!buffer.toString("utf8").endsWith("*COMPLETE")) {
                     this.partialMessage = this.partialMessage + buffer.toString("utf8");
                 } else {
                     // Not full?  This message is complete
