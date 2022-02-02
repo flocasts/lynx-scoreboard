@@ -97,11 +97,11 @@ export class LynxScoreboard {
                 this._publish("stoppedListening", "UDP");
             })
             .on("message", (buffer) => {
-                // check if datagram is full.  If so, more data to come
+                // check if datagram ends with trailer.  If not, more data to come
                 if (!buffer.toString("utf8").endsWith("*COMPLETE")) {
                     this.partialMessage = this.partialMessage + buffer.toString("utf8");
                 } else {
-                    // Not full?  This message is complete
+                    // Ends with trailer?  This message is complete
                     this.fullMessage = this.partialMessage + buffer.toString("utf8");
 
                     try {
