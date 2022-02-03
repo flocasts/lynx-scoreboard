@@ -1,0 +1,116 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "max-len": [
+      "error",
+      {
+        "code": 120,
+        "ignoreComments": true
+      }
+    ],
+    "operator-linebreak": [
+      "error",
+      "before"
+    ],
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1
+      }
+    ],
+    "indent": "off",
+    "@typescript-eslint/indent": [
+      "error",
+      4
+    ],
+    "no-return-await": "off",
+    "object-shorthand": "off",
+    "no-magic-numbers": "off",
+    "no-unused-vars": "off",
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "no-underscore-dangle": "off",
+    "lines-between-class-members": "off",
+    "import/prefer-default-export": "off",
+    "no-param-reassign": "off",
+    "arrow-parens": "off",
+    "no-useless-computed-key": "off",
+    "no-plusplus": "off",
+    "semi": "off",
+    "@typescript-eslint/semi": [
+      "error"
+    ],
+    "no-use-before-define": "off",
+    "max-classes-per-file": "off",
+    "object-curly-newline": "off",
+    "func-names": "off",
+    "space-before-function-paren": "off",
+    "no-console": "off",
+    "prefer-destructuring": "off",
+    "prefer-object-spread": "off",
+    "class-methods-use-this": "off",
+    "prefer-promise-reject-errors": "off",
+    "no-throw-literal": "off",
+    "no-continue": "off",
+    "no-restricted-syntax": "off",
+    "no-prototype-builtins": "off",
+    "no-useless-constructor": "off",
+    "consistent-return": "off",
+    "prefer-rest-params": "off",
+    "dot-notation": "off",
+    "radix": "off",
+    "no-restricted-globals": "off",
+    "no-nested-ternary": "off",
+    "no-unused-expressions": "off",
+    "no-shadow": "off",
+    "no-empty-function": [
+      "error",
+      {
+        "allow": [
+          "constructors"
+        ]
+      }
+    ],
+    "import/no-extraneous-dependencies": "off",
+    "quotes": [
+      2,
+      "double"
+    ],
+    "@typescript-eslint/member-ordering": [
+      "off",
+      {
+        "default": [
+          "static-field",
+          "instance-field",
+          "static-method",
+          "instance-method"
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.tsx"
+      ],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": "off"
+      }
+    }
+  ]
+}
