@@ -1,32 +1,59 @@
 import { LynxScoreboard } from ".";
-import {LynxDirective, LynxResults} from "./lynx-data.interface";
+import { LynxDirective, LynxResults } from "./lynx-data.interface";
+import { Protocol } from "./lynx-scoreboard";
 
 (async (): Promise<void> => {
-    const scoreboard = await LynxScoreboard.listen({
+    const scoreboardTCP = await LynxScoreboard.listen({
         port: 8080,
         ip: "127.0.0.1",
+        protocol: Protocol.tcp
     });
 
-    if (scoreboard.isListening) {
+    const scoreboardUDP = await LynxScoreboard.listen({
+        port: 9090
+    });
+
+    if (scoreboardTCP.isListening) {
         console.log("I am listening!");
     }
 
-    scoreboard.subscribe("error", (err: string) => {
+    scoreboardTCP.subscribe("error", (err: string) => {
         console.log(`Uh oh! There was an error: ${err}`);
     });
 
-    scoreboard.subscribe("results", (data: LynxResults) => {
+    scoreboardTCP.subscribe("results", (data: LynxResults) => {
         console.log(`Received ${JSON.stringify(data.results)} from ${data.event.eventName}`);
     });
 
-    scoreboard.subscribe("directive", (data: LynxDirective) => {
+    scoreboardTCP.subscribe("directive", (data: LynxDirective) => {
         console.log(`Received directive: ${data.title}`);
     });
 
-    scoreboard.subscribe("stoppedListening", (data?: string) => {
+    scoreboardTCP.subscribe("stoppedListening", (data?: string) => {
+        console.log(`${data} stopped listening!`);
+    });
+
+    if (scoreboardUDP.isListening) {
+        console.log("I am listening!");
+    }
+
+    scoreboardUDP.subscribe("error", (err: string) => {
+        console.log(`Uh oh! There was an error: ${err}`);
+    });
+
+    scoreboardUDP.subscribe("results", (data: LynxResults) => {
+        console.log(`Received ${JSON.stringify(data.results)} from ${data.event.eventName}`);
+    });
+
+    scoreboardUDP.subscribe("directive", (data: LynxDirective) => {
+        console.log(`Received directive: ${data.title}`);
+    });
+
+    scoreboardUDP.subscribe("stoppedListening", (data?: string) => {
         console.log(`${data} stopped listening!`);
     });
 
     // Stop listening after 10 seconds
-    setTimeout(() => scoreboard.stopListening(), 10000);
+    setTimeout(() => scoreboardTCP.stopListening(Protocol.tcp), 10000);
+    setTimeout(() => scoreboardUDP.stopListening(), 10000);
 })();
