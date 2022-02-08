@@ -70,6 +70,7 @@ export class LynxScoreboard {
 
     private constructor(private opts: LynxScoreboardOpts) {
         if (this.opts?.protocol === Protocol.TCP) {
+            // Start TCP Listener
             this._serverTCP = net.createServer((tcpServer) => {
                 tcpServer.on("data", buffer => {
                     try {
@@ -85,7 +86,24 @@ export class LynxScoreboard {
                     this._publish("error", err.message);
                 });
             });
-            this.startListeningTCP();
+            // Bind Server
+            this._serverTCP.listen(this.port, this.ip);
+            this._serverTCP.on("listening", () => {
+                this._isListening = true;
+                this._publish("listening");
+            });
+
+            this._serverTCP.on("connection", (socket) => {
+                this.clients.push(socket);
+
+                socket.on("close", () => {
+                    this.clients.splice(this.clients.indexOf(socket), 1);
+                });
+            });
+            this._serverTCP.on("close", () => {
+                this._isListening = false;
+                this._publish("stoppedListening", "TCP");
+            });
         } else {
             this._socketUDP = dgram.createSocket({
                 type: "udp4",
@@ -131,27 +149,6 @@ export class LynxScoreboard {
                 this._publish("error", err.message);
             })
             .bind(this.port, this.ip);
-    }
-
-    private startListeningTCP(): void {
-        // Start TCP listener
-        this._serverTCP.listen(this.port, this.ip);
-        this._serverTCP.on("listening", () => {
-            this._isListening = true;
-            this._publish("listening");
-        });
-
-        this._serverTCP.on("connection", (socket) => {
-            this.clients.push(socket);
-
-            socket.on("close", () => {
-                this.clients.splice(this.clients.indexOf(socket), 1);
-            });
-        });
-        this._serverTCP.on("close", () => {
-            this._isListening = false;
-            this._publish("stoppedListening", "TCP");
-        });
     }
 
     private _publish(topic: Topic, data?: LynxResults | LynxDirective | string): void {

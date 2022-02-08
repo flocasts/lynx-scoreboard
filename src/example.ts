@@ -6,7 +6,7 @@ import { Protocol } from "./lynx-scoreboard";
     const scoreboardTCP = await LynxScoreboard.listen({
         port: 8080,
         ip: "127.0.0.1",
-        protocol: Protocol.tcp
+        protocol: Protocol.TCP
     });
 
     const scoreboardUDP = await LynxScoreboard.listen({
@@ -54,6 +54,6 @@ import { Protocol } from "./lynx-scoreboard";
     });
 
     // Stop listening after 10 seconds
-    setTimeout(() => scoreboardTCP.stopListening(Protocol.tcp), 10000);
+    setTimeout(() => scoreboardTCP.stopListening(Protocol.TCP), 10000);
     setTimeout(() => scoreboardUDP.stopListening(), 10000);
 })();
