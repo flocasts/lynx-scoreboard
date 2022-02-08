@@ -194,6 +194,7 @@ export class LynxScoreboard {
             this.subscribe("stoppedListening", () => resolve);
             if (this._socketUDP && !protocol) {
                 this._socketUDP.close();
+                this._isListening = false;
             }
             if (this.clients && protocol === Protocol.TCP) {
                 this.clients.forEach(client => {
@@ -203,6 +204,7 @@ export class LynxScoreboard {
             // For tcp, sever connections before closing server
             if (this._serverTCP && protocol === Protocol.TCP) {
                 this._serverTCP.close();
+                this._isListening = false;
             }
         });
     }
