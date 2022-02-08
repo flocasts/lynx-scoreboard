@@ -5,8 +5,8 @@ import { parseLynxPacket } from "./lynx-data-parser";
 import { Socket } from "net";
 
 export enum Protocol {
-    tcp = "tcp",
-    udp = "udp"
+    TCP = "tcp",
+    UDP = "udp"
 }
 
 interface LynxScoreboardOpts {
@@ -69,7 +69,7 @@ export class LynxScoreboard {
     }
 
     private constructor(private opts: LynxScoreboardOpts) {
-        if (this.opts?.protocol === Protocol.tcp) {
+        if (this.opts?.protocol === Protocol.TCP) {
             this._serverTCP = net.createServer((tcpServer) => {
                 tcpServer.on("data", buffer => {
                     try {
@@ -195,13 +195,13 @@ export class LynxScoreboard {
             if (this._socketUDP && !protocol) {
                 this._socketUDP.close();
             }
-            if (this.clients && protocol === Protocol.tcp) {
+            if (this.clients && protocol === Protocol.TCP) {
                 this.clients.forEach(client => {
                     client.destroy();
                 });
             }
             // For tcp, sever connections before closing server
-            if (this._serverTCP && protocol === Protocol.tcp) {
+            if (this._serverTCP && protocol === Protocol.TCP) {
                 this._serverTCP.close();
             }
         });

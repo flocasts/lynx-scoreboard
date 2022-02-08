@@ -5,7 +5,7 @@ import { LynxScoreboard, Protocol } from "./lynx-scoreboard";
 const scoreboard = LynxScoreboard.listen({
     port: 9999,
     ip: "127.0.0.1",
-    protocol: Protocol.tcp
+    protocol: Protocol.TCP
 });
 
 describe("Expert Mode Listener", () => {
@@ -25,7 +25,7 @@ describe("Expert Mode Stop listening", () => {
 // TCP
 const tcpScoreboard = LynxScoreboard.listen({
     port: 9999,
-    protocol: Protocol.tcp
+    protocol: Protocol.TCP
 });
 
 describe("TCP Scoreboard Listener", () => {
