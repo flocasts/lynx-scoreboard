@@ -87,8 +87,7 @@ export class LynxScoreboard {
                 });
             });
             // Bind Server
-            this._serverTCP.listen(this.port, this.ip);
-            this._serverTCP.on("listening", () => {
+            this._serverTCP.listen(this.port, this.ip, () => {
                 this._isListening = true;
                 this._publish("listening");
             });
@@ -203,6 +202,7 @@ export class LynxScoreboard {
                 this._serverTCP.close();
                 this._isListening = false;
             }
+            resolve();
         });
     }
 }
