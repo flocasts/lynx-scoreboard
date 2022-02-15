@@ -1,13 +1,53 @@
 import "jest";
-import { LynxScoreboard } from "./lynx-scoreboard";
+import { LynxScoreboard, Protocol } from "./lynx-scoreboard";
 
-const scoreboard = LynxScoreboard.listen({
-  port: 9999,
-  ip: "127.0.0.1",
+let scoreboard: LynxScoreboard;
+describe("Expert Mode UDP Listener", () => {
+    beforeAll(async () => {
+        scoreboard = await LynxScoreboard.listen({
+            port: 9999,
+            ip: "127.0.0.1",
+        });
+    });
+    test("Expert Mode should be listening", () => {
+        expect(scoreboard.isListening).toEqual(true);
+    });
+    test("Expert Mode should stop listening", async () => {
+        await scoreboard.stopListening();
+        expect(scoreboard.isListening).toEqual(false);
+    });
 });
 
-describe("Test Scoreboard Listener", () => {
-  test("Scoreboard should be listening", async () => {
-    expect((await scoreboard).isListening).toEqual(true);
-  });
+// TCP
+describe("TCP Scoreboard Listener", () => {
+    beforeAll(async () => {
+        scoreboard = await LynxScoreboard.listen({
+            port: 9999,
+            ip: "127.0.0.1",
+            protocol: Protocol.TCP
+        });
+    });
+    test("TCP Scoreboard should be listening", () => {
+        expect(scoreboard.isListening).toEqual(true);
+    });
+    test("TCP Scoreboard should stop listening", async () => {
+        await scoreboard.stopListening(Protocol.TCP);
+        expect(scoreboard.isListening).toEqual(false);
+    });
+});
+
+// UDP
+describe("UDP Scoreboard Listener", () => {
+    beforeAll(async () => {
+        scoreboard = await LynxScoreboard.listen({
+            port: 9990
+        });
+    });
+    test("UDP Scoreboard should be listening", () => {
+        expect(scoreboard.isListening).toEqual(true);
+    });
+    test("UDP Scoreboard should stop listening", async () => {
+        await scoreboard.stopListening();
+        expect(scoreboard.isListening).toEqual(false);
+    });
 });
