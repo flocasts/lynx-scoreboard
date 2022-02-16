@@ -3,6 +3,9 @@
   "version": "0.0.5",
   "description": "Generic server to act as a Lynx Scoreboard receiver.",
   "main": "dist/index.js",
+  "publishConfig": {
+    "@flocasts:registry": "https://npm.pkg.github.com"
+  },
   "scripts": {
     "start": "node ./dist/index",
     "build": "tsc",
@@ -14,7 +17,7 @@
     "type": "git",
     "url": "git+https://github.com/flocasts/lynx-scoreboard.git"
   },
-  "author": "Russel Brewer <russell.brewer@flosports.tv>, Jason Byrne <jason.byrne@flosports.tv>",
+  "author": "Russell Brewer <russell.brewer@flosports.tv>, Jason Byrne <jason.byrne@flosports.tv>, Joshua Foss <joshua.foss@flosports.tv>",
   "bugs": {
     "url": "https://github.com/flocasts/lynx-scoreboard/issues"
   },
