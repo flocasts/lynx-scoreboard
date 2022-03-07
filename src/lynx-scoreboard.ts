@@ -20,7 +20,8 @@ type Topic =
   | "directive"
   | "error"
   | "listening"
-  | "stoppedListening";
+  | "stoppedListening"
+  | "connection";
 type ErrorCallback = (error: string) => void;
 type DirectiveCallback = (data: LynxDirective) => void;
 type ResultsCallback = (data: LynxResults) => void;
@@ -32,6 +33,7 @@ type Subscribers = {
     error: ErrorCallback[];
     listening: EmptyCallback[];
     stoppedListening: StringCallback[];
+    connection: StringCallback[];
 };
 
 export class LynxScoreboard {
@@ -44,6 +46,7 @@ export class LynxScoreboard {
         directive: [],
         listening: [],
         stoppedListening: [],
+        connection: []
     };
 
     private message = "";
@@ -94,6 +97,7 @@ export class LynxScoreboard {
 
             this._serverTCP.on("connection", (socket) => {
                 this.clients.push(socket);
+                this._publish("connection", socket.remoteAddress);
 
                 socket.on("close", () => {
                     this.clients.splice(this.clients.indexOf(socket), 1);
@@ -150,7 +154,7 @@ export class LynxScoreboard {
             .bind(this.port, this.ip);
     }
 
-    private _publish(topic: Topic, data?: LynxResults | LynxDirective | string): void {
+    private _publish(topic: Topic, data?: LynxResults | LynxDirective | string | []): void {
         this._subscribers[topic].forEach((callback: Function) => callback(data));
     }
 
@@ -177,6 +181,9 @@ export class LynxScoreboard {
                 break;
             case "error":
                 this._subscribers.error.push(callback as ErrorCallback);
+                break;
+            case "connection":
+                this._subscribers.connection.push(callback as StringCallback);
                 break;
         }
         return this;

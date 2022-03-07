@@ -5,7 +5,6 @@ import { Protocol } from "./lynx-scoreboard";
 (async (): Promise<void> => {
     const scoreboardTCP = await LynxScoreboard.listen({
         port: 8080,
-        ip: "127.0.0.1",
         protocol: Protocol.TCP
     });
 
@@ -31,6 +30,10 @@ import { Protocol } from "./lynx-scoreboard";
 
     scoreboardTCP.subscribe("stoppedListening", (data?: string) => {
         console.log(`${data} stopped listening!`);
+    });
+
+    scoreboardTCP.subscribe("connection", (data?: string) => {
+        console.log(`${data} connected!`);
     });
 
     if (scoreboardUDP.isListening) {
