@@ -167,7 +167,7 @@
 ; The format lines follow.
 
 ;;Initialization
-\10\000.0
+\10\00*CLOCKTICK,0.0
 
 ;;TimeRunning
 ; This is sent approximately 10 times per second.
