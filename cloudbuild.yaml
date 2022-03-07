@@ -1,0 +1,8 @@
+steps:
+  - name: bash
+    args: ['-c', 'echo //npm.pkg.github.com/:_authToken=${_FLO_NPM_TOKEN} > .npmrc']
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['install']
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['publish']
+
