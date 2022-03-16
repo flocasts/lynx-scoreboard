@@ -2,6 +2,11 @@
 
 Create a Scoreboard Interface to listen to updates from FinishLynx
 
+## Publish new version
+Edit Cloud Build trigger by updating _FLO_NPM_TOKEN with a valid github personal access token.
+Update version in package.json
+Merge changes to master branch
+
 ## Usage Example
 Use "npm run build" to create dist version of example.js
 Open terminal and cd to "lynx-scoreboard\dist"

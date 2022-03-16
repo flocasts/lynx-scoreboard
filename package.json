@@ -1,6 +1,6 @@
 {
   "name": "@flocasts/lynx-scoreboard",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Generic server to act as a Lynx Scoreboard receiver.",
   "main": "dist/index.js",
   "publishConfig": {
