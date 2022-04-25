@@ -6,7 +6,7 @@ import {
 } from "./lynx-data.interface";
 
 function parseDirective(message: string): LynxDirective {
-    const data = message.substr(1).split(",");
+    const data = message.substr(1).split("|");
     return {
         title: data.shift() || "",
         data: data.map((val) => val.trim()),
@@ -14,11 +14,11 @@ function parseDirective(message: string): LynxDirective {
 }
 
 function parseEvent(line: string): LynxEvent {
-    const data = line.split(",");
+    const data = line.split("|");
     return {
         status: data[0],
         eventName: data[1],
-        wind: data[2].toLowerCase() === "nwi" ? null : data[2],
+        wind: data[2]?.toLowerCase() === "nwi" ? null : data[2],
         eventNo: parseInt(data[3]),
         roundNo: parseInt(data[4]),
         heatNo: parseInt(data[5]),
@@ -28,7 +28,7 @@ function parseEvent(line: string): LynxEvent {
 }
 
 function parseResult(line: string): LynxResult {
-    const data = line.split(",");
+    const data = line.split("|");
     return {
         place: data[0] ? data[0].trim() : null,
         lane: data[1] ? parseInt(data[1].trim()) : null,
@@ -61,7 +61,7 @@ function parseResults(message: string): LynxResults {
         event: parseEvent(firstLine),
         results: lines
         // Remove empty lines
-            .filter((line) => line.replace(",", "").length > 0)
+            .filter((line) => line.replace("|", "").length > 0)
             .map((line) => parseResult(line)),
     };
 }

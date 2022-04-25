@@ -167,41 +167,171 @@
 ; The format lines follow.
 
 ;;Initialization
-\10\00*CLOCKTICK,0.0
+\10\00
 
-;;TimeRunning
-; This is sent approximately 10 times per second.
+;;StartListHeader
+; This is sent once each time the scoreboard is updated with results. It
+; is sent before any result lines are sent.
 ; Line codes:
 ;  \00  No variable
-;  \01  Formatted time
-;  \02  Binary time in milliseconds (as a 4 byte little endian integer)
-; Setting register[0] to 1 in a format line will cause that line and
-; subsequent lines to only be sent once per second (when the second's 
-; digit changes) instead of approximately 10 times per second. Setting
-; register[0] to 0 will resume normal operation for remaining lines.
+;  \01  OFFICIAL/UNOFFICIAL string
+;  \02  Event name
+;  \03  Wind
+;  \04  Event number
+;  \05  Round number
+;  \06  Heat number
+;  \07  AUTO/MANUAL start type
+;  \08  Number of participants
 ;
 ; The following line (if not commented) will tell ResulTV to change layouts.
-;\11\00Command=LayoutDraw;Name=Time;Clear=1;\0a
+\13\01%s|
+\13\02%s|
+\13\03%s|
+\13\04%s|
+\13\05%s|
+\13\06%s|
+\13\04%s\L0000\X3\B0
+\13\05-%s-
+\13\06%s\L000\X2\B0\R0|
+\13\07%s|
+\13\08%s;
 
-\11\01*CLOCKTICK,%s\=0\
+;;StartListTrailer
+; This is sent once each time the scoreboard is updated with results. It
+; is sent after all result lines are sent.
+; Line codes are identical to the ResultsHeader line codes.
+\13\00*COMPLETE
 
-;;TimeStopped
-; This is sent when the time is stopped by a beam break.
-; Line codes are identical to the TimeRunning line codes.
+;;StartList
+; This is sent once for each result line displayed on the scoreboard.
+; Line codes:
+;  \00  No variable
+;  \01  Place
+;  \02  Lane
+;  \03  Id
+;  \04  Name
+;  \05  Affiliation
+;  \06  Time
+;  \07  Delta Time
+;  \08  Cumulative Split Time
+;  \09  Last Split Time
+;  \0a  Laps To Go
+;  \0b  License
+;  \0c  ReacTime
+;  \0d  Speed
+;  \0e  Pace
+;  \0f  Best Split Time
+; Register[0] is initialized with the index of the current result line and
+; will range from 0 through PageSize - 1.
+\14\01%s|
+\14\02%s|
+\14\03%s|
+\14\04%s|
+\14\05%s|
+\14\06%s|
+\14\07%s|
+\14\08%s|
+\14\09%s|
+\14\0a%s|
+\14\0b%s|
+\14\0c%s|
+\14\0d%s|
+\14\0e%s|
+\14\0f%s;
+
+;;ResultsHeader
+; This is sent once each time the scoreboard is updated with results. It
+; is sent before any result lines are sent.
+; Line codes:
+;  \00  No variable
+;  \01  OFFICIAL/UNOFFICIAL string
+;  \02  Event name
+;  \03  Wind
+;  \04  Event number
+;  \05  Round number
+;  \06  Heat number
+;  \07  AUTO/MANUAL start type
+;  \08  Number of participants
 ;
 ; The following line (if not commented) will tell ResulTV to change layouts.
-;\11\00Command=LayoutDraw;Name=Time;Clear=1;\0a
-\11\01\01T\02%15.15s\03\04
-; The following line will trigger event F1.
-; Note that the event is triggered after the data is sent. This is important
-; if the triggered field will use the TimeStopped data.
-\11\00Command=Trigger;Name=F1;Action=On;\0a
 
-;;TimeOfDay
-; This is sent when the 'Send time of day' option is checked in the
-; Scoreboard pull down menu.
-; Line codes are identical to the TimeRunning line codes.
+\13\01%s|
+\13\02%s|
+\13\03%s|
+\13\04%s|
+\13\05%s|
+\13\06%s|
+\13\04%s\L0000\X3\B0
+\13\05-%s-
+\13\06%s\L000\X2\B0\R0|
+\13\07%s|
+\13\08%s;
+
+;;ResultsTrailer
+; This is sent once each time the scoreboard is updated with results. It
+; is sent after all result lines are sent.
+; Line codes are identical to the ResultsHeader line codes.
+\14\00*COMPLETE
+
+;;Result
+; This is sent once for each result line displayed on the scoreboard.
+; Line codes:
+;  \00  No variable
+;  \01  Place
+;  \02  Lane
+;  \03  Id
+;  \04  Name
+;  \05  Affiliation
+;  \06  Time
+;  \07  Delta Time
+;  \08  Cumulative Split Time
+;  \09  Last Split Time
+;  \0a  Laps To Go
+;  \0b  License
+;  \0c  ReacTime
+;  \0d  Speed
+;  \0e  Pace
+;  \0f  Best Split Time
+; Register[0] is initialized with the index of the current result line and
+; will range from 0 through PageSize - 1.
+\14\01%s|
+\14\02%s|
+\14\03%s|
+\14\04%s|
+\14\05%s|
+\14\06%s|
+\14\07%s|
+\14\08%s|
+\14\09%s|
+\14\0a%s|
+\14\0b%s|
+\14\0c%s|
+\14\0d%s|
+\14\0e%s|
+\14\0f%s;
+
+;;MessageHeader
+; This is sent once each time the scoreboard is updated with the message. It
+; is sent before any message lines are sent.
+; Line codes:
+;  \00  No variable
 ;
 ; The following line (if not commented) will tell ResulTV to change layouts.
-;\11\00Command=LayoutDraw;Name=Time;Clear=1;\0a
-\11\01*CLOCKTICK,%15.15s\=0\
+;\15\00Command=LayoutDraw;Name=Message;Clear=1;\0a
+;\15\00\01M\02
+
+;;MessageTrailer
+; This is sent once each time the scoreboard is updated with the message. It
+; is sent after all message lines are sent.
+; Line codes are identical to the MessageHeader line codes.
+;\15\00\03\04
+
+;;Message
+; This is sent once for each message line displayed on the scoreboard.
+; Line codes:
+;  \00  No variable
+;  \01  Text
+; Register[0] is initialized with the index of the current message line and
+; will range from 0 through <number of lines> - 1.
+;\16\00*MESSAGE\|
+;\16\01%s\

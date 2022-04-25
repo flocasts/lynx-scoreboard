@@ -1,0 +1,68 @@
+;FloSports lss clock file.  This script instructs FinishLynx to output clock events based on the format expected by FloSports Lynx Scoreboard interface
+
+;;Initialization
+; This is sent once to initialize the scoreboard. Manually sent by timer (don't count on it)
+\11\01*update|0.0  |
+\13\04%s|
+\13\05%s|
+\13\06%s|
+\13\02%s
+
+;;TimeArmed
+; This is sent when the event is armed.  This will not fire if timer restarts the clock after false start, unless they hit CTRL+A
+; This will reliably send when the timer opens a new event
+\11\01*armed|%s|
+\13\04%s|
+\13\05%s|
+\13\06%s|
+\13\02%s
+
+;;TimeGun
+; This is sent when automatic start is received - NOTE: ignores manual start, best not to use for signaling start of race
+\11\01*start|%s|
+\13\04%s|
+\13\05%s|
+\13\06%s|
+\13\02%s
+
+;;TimeRunning
+; This is sent when clock starts running.  Greater than 0 is the best signal for start of race
+; Update event of 0.0 after a running clock is the signal that there was a false start
+; If time of day option is present, this does not fire when "Show time of day" is selected.  Otherwise it will
+\11\01*update|%s|
+\13\04%s|
+\13\05%s|
+\13\06%s|
+\13\02%s
+
+;;TimeUpdate
+; This is sent approximately 10 times per second.
+\11\01*update|%s|
+\13\04%s|
+\13\05%s|
+\13\06%s|
+\13\02%s
+
+;;TimePaused
+; This is sent when the clock is paused by an athlete breaking the photo eyes (often not used)
+\11\01*pause|%s|
+\13\04%s|
+\13\05%s|
+\13\06%s|
+\13\02%s
+
+;;TimeStopped
+; This is sent when the clock is stopped by an athlete breaking the photo eyes (often not used)
+\11\01*stop|%s|
+\13\04%s|
+\13\05%s|
+\13\06%s|
+\13\02%s
+
+;;TimeOfDay
+; This is sent when the clock is set to time of day.  If this doesn't exist in the lss, time of day shows in the time running directive
+\11\01*timeofday|%s|
+\13\04%s|
+\13\05%s|
+\13\06%s|
+\13\02%s
