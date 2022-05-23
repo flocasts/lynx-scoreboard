@@ -195,7 +195,7 @@ export class LynxScoreboard {
         }
         return new Promise((resolve) => {
             this.subscribe("stoppedListening", () => resolve);
-            if (this._socketUDP && !protocol) {
+            if (this._socketUDP && protocol !== Protocol.TCP) {
                 this._socketUDP.close();
                 this._isListening = false;
             }
