@@ -128,7 +128,7 @@ export class LynxScoreboard {
                 this._publish("stoppedListening", "UDP");
             })
             .on("message", (buffer, rinfo) => {
-                // check if datagram is missing trailer and default packet size is full.  If not, more data to come
+                // check if datagram is missing trailer and default packet size is full.  If not, more data to come...
                 // This is a specific case from FinishLynx.  Older scripts don't have trailer, so we qualify with full packet size
                 if (!buffer.toString("utf8").endsWith("*COMPLETE") && rinfo.size === 536) {
                     this.message = this.message + buffer.toString("utf8");
