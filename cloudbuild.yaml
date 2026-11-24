@@ -1,11 +1,13 @@
 steps:
-  - name: bash
-    args: ['-c', 'echo "//npm.pkg.github.com/:_authToken=$$FLO_NPM_TOKEN" > .npmrc']
-    secretEnv: ['FLO_NPM_TOKEN']
   - name: 'gcr.io/cloud-builders/npm'
     args: ['install']
   - name: 'gcr.io/cloud-builders/npm'
     args: ['run', 'build']
+  # Only publish needs the token, so write it after install: dependency
+  # install scripts never see it.
+  - name: bash
+    args: ['-c', 'echo "//npm.pkg.github.com/:_authToken=$$FLO_NPM_TOKEN" > .npmrc']
+    secretEnv: ['FLO_NPM_TOKEN']
   - name: 'gcr.io/cloud-builders/npm'
     args: ['publish']
 
