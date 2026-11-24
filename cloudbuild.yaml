@@ -1,6 +1,7 @@
 steps:
   - name: bash
-    args: ['-c', 'echo //npm.pkg.github.com/:_authToken=${_FLO_NPM_TOKEN} > .npmrc']
+    args: ['-c', 'echo "//npm.pkg.github.com/:_authToken=$$FLO_NPM_TOKEN" > .npmrc']
+    secretEnv: ['FLO_NPM_TOKEN']
   - name: 'gcr.io/cloud-builders/npm'
     args: ['install']
   - name: 'gcr.io/cloud-builders/npm'
@@ -8,3 +9,12 @@ steps:
   - name: 'gcr.io/cloud-builders/npm'
     args: ['publish']
 
+availableSecrets:
+  secretManager:
+    - versionName: projects/$PROJECT_ID/secrets/flo-npm-token/versions/latest
+      env: 'FLO_NPM_TOKEN'
+
+# The trigger still sets the old _FLO_NPM_TOKEN until it is removed after merge.
+# ALLOW_LOOSE stops that unused substitution from failing the build.
+options:
+  substitution_option: 'ALLOW_LOOSE'
