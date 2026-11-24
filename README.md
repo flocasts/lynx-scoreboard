@@ -3,7 +3,7 @@
 Create a Scoreboard Interface to listen to updates from FinishLynx
 
 ## Publish new version
-Edit Cloud Build trigger by updating _FLO_NPM_TOKEN with a valid github personal access token.
+If the token stops working, add a new version of the Secret Manager secret flo-npm-token with a GitHub token that can write packages.
 Update version in package.json
 Merge changes to master branch
 
