@@ -1,10 +1,17 @@
 steps:
-  - name: bash
-    args: ['-c', 'echo //npm.pkg.github.com/:_authToken=${_FLO_NPM_TOKEN} > .npmrc']
   - name: 'gcr.io/cloud-builders/npm'
     args: ['install']
   - name: 'gcr.io/cloud-builders/npm'
     args: ['run', 'build']
+  # Write the token after install and build, so dependency install scripts
+  # don't run with it on disk. Only publish needs it.
+  - name: bash
+    args: ['-c', 'echo "//npm.pkg.github.com/:_authToken=$$FLO_NPM_TOKEN" > .npmrc']
+    secretEnv: ['FLO_NPM_TOKEN']
   - name: 'gcr.io/cloud-builders/npm'
     args: ['publish']
 
+availableSecrets:
+  secretManager:
+    - versionName: projects/$PROJECT_ID/secrets/flo-npm-token/versions/latest
+      env: 'FLO_NPM_TOKEN'

@@ -3,7 +3,8 @@
 Create a Scoreboard Interface to listen to updates from FinishLynx
 
 ## Publish new version
-Edit Cloud Build trigger by updating _FLO_NPM_TOKEN with a valid github personal access token.
+If the token stops working, add a new version of the Secret Manager secret flo-npm-token in the build's project. Other repos' builds read the same secret, so the new version changes their token too: use a personal access token (classic) from the deploy machine user with the same scopes (repo, write:packages). GitHub Packages rejects fine-grained tokens. Disable the old version once a build succeeds.
+
 Update version in package.json
 Merge changes to master branch
 
